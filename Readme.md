@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дарья  Перчаткина](https://up.htmlacademy.ru/javascript/19/user/1115395).
-* Наставник: [Екатерина Кащенко] (https://htmlacademy.ru/profile/id109008).
+* Наставник: [Екатерина Кащенко](https://htmlacademy.ru/profile/id109008).
 
 ---
 
