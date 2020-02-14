@@ -35,15 +35,17 @@ var getRandomNoRepeat = function (arr) { // создадим функцию, к�
     return arr.splice(Math.floor(Math.random() * arr.length), 1);
   }
 
-var indexRandomCreate = function (indexCount, arr) {
-  for (var i = 1; i <= indexCount ; i++) {
-    arr.push(i);
+  
+  var indexFotoArr = [];
+  var indexRandomCreate = function (count, arr) {
+    for (var i = 1; i <= count ; i++) {
+      arr.push(i);
+    }
+    return arr;
   }
-  return arr;
-};
-indexRandomCreate(COUNT);
+  indexRandomCreate(COUNT, indexFotoArr);
 
-var url = ['photos/' + getRandomNoRepeat(indexRandomCreate(COUNT)) + '.jpg'];
+// var url = ['photos/' + getRandomNoRepeat(indexRandomCreate(COUNT)) + '.jpg'];
 
 // var similarWizardTemplate = document.querySelector('#picture') // находим темплейт в разметке
 // .content // берем все содержимое дива
