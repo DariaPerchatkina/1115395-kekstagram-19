@@ -9,113 +9,115 @@ var USERS_MESSAGE = [ // создает массив с комментариям
     'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
     ];
+var PHOTO_DESCRIPTION = [
+  'Мама мия, какой закат',
+  'Опа-на, смотрите что у меня есть',
+  'Окультуриваемся',
+  'Какую брать - эту или эту?',
+  'Всем продуктивного дня!',
+  'А мы в отпуск!!!',
+  'Любите и будьте любимы',
+  'Первые шаги',
+  'От улыбки хмурый день светлей, от улыбки в небе радуга проснется',
+  'Хорошо в деревне летом',
+  'Главное чтобы близкие были рядом',
+  'Не хочу писать диплом..',
+  'Го гулять, погодка огонь!',
+  'Ешь, молись, люби, а потом иди на работу',
+  'Ставьте лайки, подписывайтесь на мой канал, жмите на колокольчик',
+  'Люблю тебя, мой милый друг',
+  'Happy every days',
+  'Проснулся, умылся и ты красавчик',
+  'И пусть весь мир подождет',
+  'Рыбак рыбака видит издалека',
+  'Скоро сказка сказывается, да не скоро дело делается',
+  'Видили ночь, гуляли всю ночь до утра',
+  'Рожденный ползать - летать не может сам, но на самолете вполне себе смог',
+  'Снег в апреле? Что за дела?????',
+  'Умей радоваться мелочам'
+];
+
 var COUNT = 25;
 var likesMin = 15;
 var likesMax = 250;
+
+
+var getRandomValue = function (min, max) {
+  return Math.random() * (max - min) + min;
+};
 
 var getRandomValueArr = function (arr) { // генерируем случайное чисто из массива
       return arr[Math.floor(Math.random() * arr.length)];
   };
 
-var likes = function getRandomValue(min, max) { // считаем рандомное значение лайков
-        min = Math.ceil(likesMin);
-        max = Math.floor(likesMax);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      };
-      likes(likesMin, likesMin);
-
-
-var comments = function (message) { // cоздаем рандомные комментарии
-    return getRandomValueArr(message) + ' ' + getRandomValueArr(message);
-  };
-    comments(USERS_MESSAGE);
-
-
 var getRandomNoRepeat = function (arr) { // создадим функцию, которая позволит получать не повторющиеся элементы массива
     return arr.splice(Math.floor(Math.random() * arr.length), 1);
   }
 
-  
-  var indexFotoArr = [];
-  var indexRandomCreate = function (count, arr) {
+var indexFotoArr = []; // создаем пустой массив
+var indexRandomCreate = function (count, arr) { // создаем функцию, которая позволит нам получить массив индексов для фотографий
     for (var i = 1; i <= count ; i++) {
       arr.push(i);
     }
-    return arr;
+    return indexFotoArr;
   }
   indexRandomCreate(COUNT, indexFotoArr);
 
-// var url = ['photos/' + getRandomNoRepeat(indexRandomCreate(COUNT)) + '.jpg'];
-
-// var similarWizardTemplate = document.querySelector('#picture') // находим темплейт в разметке
-// .content // берем все содержимое дива
-// .querySelector('.picture');
-
-// var getRandomValueArr = function (arr) {
-//     return arr[Math.floor(Math.random() * arr.length)];
-// };
-
-var photoRandomCreate = function (count, arr) { // создаем функцию, которая будет генерировать случайных набор фото
+var photoRandomCreate = function (count) { // создаем функцию, которая будет генерировать случайных набор фото
   var photoArr = []; // делаем пустой массив данных
 
   for (var i = 0; i < count; i++) { // условия работы цикла
- photoArr.push({url: url,
-        likes: likes,
-        comments: comments
-    });
-  }
-  return photoArr;
+    var description = getRandomValueArr(PHOTO_DESCRIPTION); // рандомное описание
+
+    var likes = function getRandomValue(min, max) { // считаем рандомное значение лайков
+        min = Math.ceil(likesMin);
+        max = Math.floor(likesMax);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+    likes(likesMin, likesMax);
+
+    var comments = function () { // cоздаем рандомные комментарии
+      return {
+        avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
+        message: getRandomValueArr(USERS_MESSAGE),
+        name: getRandomValueArr(USER_NAME)
+        };
+      };
+        comments();
+
+    var url = ['photos/' + getRandomNoRepeat(indexRandomCreate(COUNT, indexFotoArr)) + '.jpg']; // рандомное url
+
+   photoArr.push({url: url,
+          description: description,
+          likes: likes,
+          comments: comments
+      });
+    }
+    return photoArr;
+  };
+
+var photos = photoRandomCreate(COUNT);
+
+var similarUserPhotoTemplate = document.querySelector('#picture')  // находит по id разметке template
+.content // берем все содержимое template
+.querySelector('.picture');
+
+var renderPhoto = function (photo) { // создаем функцию, для формирования элеmента с данными фото
+  var photoElement = similarUserPhotoTemplate.cloneNode(true); // делаем дубликат узла template
+
+  photoElement.querySelector('.picture__img').src = photo.url;
+  photoElement.querySelector('.picture__comments').textContent = photo.comments; // находим в ДОМ div c классом .setup-similar-label и задаем ему текстовое содержимое
+  photoElement.querySelector('.picture__likes').textContent = photo.likes; // по аналогии с цветами
+
+  return photoElement; // возвращаем полученный склонированный элемент с новым содержимым
 };
 
-// // находим и показываем окно настроек пользователя
-
-// var userDialog = document.querySelector('.setup'); // находит по классу разметке div с модальным окном
-// userDialog.classList.remove('hidden'); // удаляет класс hidden
-
-// document.querySelector('.setup-similar').classList.remove('hidden'); // отображает поле в модалке, где находятся 4 мага
-
-// var similarListElement = document.querySelector('.setup-similar-list'); // находит список пока что одинаковых магов
-
-
-// var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-// var WIZARD_LASTNAME = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-// var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210 ,55)', 'rgb(0, 0 ,0)'];
-// var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
-// var WIZARD_COUNT = 4;
-
-// // необходимо написать функцию, которая позволит создавать рандомную связку имя-фамилия для магов из представленных массивом имен и фамилий
-// // каждая составляющая рандомного имени массива будет находится при помощи поиска рандомного значения,а итоговое имя мага будет получаться при попмощт конкатенации
-// var getRandomValueArr = function (arr) {
-//   return arr[Math.floor(Math.random() * arr.length)];
-// };
-
-// var wizardFullName = function (name, lastName) {
-//   var wizardsName = getRandomValueArr(name);
-//   var wizardsLastName = getRandomValueArr(lastName);
-//   return wizardsName + ' ' + wizardsLastName;
-// };
-
-
-
-// var wizards = wizardsRandomCreate(WIZARD_COUNT);
-
-// var renderWizard = function (wizard) { // создаем функцию, не придумала пока как обьяснить для чего она
-//   var wizardElement = similarWizardTemplate.cloneNode(true); // делаем дубликат узла template
-
-//   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name; // находим в ДОМ div c классом .setup-similar-label и задаем ему текстовое содержимое
-//   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor; // по аналогии с цветами
-//   wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
-
-//   return wizardElement; // возвращаем полученный склонированный элемент с новым содержимым
-// };
-
-// var renderWizards = function (wizardsElem) {
-//   var fragment = document.createDocumentFragment(); // создаем пустой объект DocumentFragment
-//   for (var i = 0; i < wizardsElem.length; i++) { // условия работы цикла, идет переборка массива случайно созданных волшебников
-//     fragment.appendChild(renderWizard(wizardsElem[i])); // добавляет созданного волшебника во фрагмент
-//   }
-//   similarListElement.appendChild(fragment); // добавляет фрагмент в разметку
-// };
-// renderWizards(wizards);
-
-// userDialog.querySelector('.setup-similar').classList.remove('hidden'); // отключает класс hidden у окна,отображающего сгененрированнвх волшебников в модалке
+var renderPhotos = function (photoElem) {
+  var fragment = document.createDocumentFragment(); // создаем пустой объект DocumentFragment
+  var pictures = document.querySelector('.pictures');
+  for (var i = 0; i < photoElem.length; i++) { // условия работы цикла, идет переборка массива случайно созданных волшебников
+    fragment.appendChild(renderPhoto(photoElem[i])); // добавляет созданного волшебника во фрагмент
+  }
+  pictures.appendChild(fragment); // добавляет фрагмент в разметку
+};
+renderPhotos(photos);
