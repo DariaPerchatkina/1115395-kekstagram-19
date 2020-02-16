@@ -79,9 +79,9 @@ var photoRandomCreate = function (count) { // создаем функцию, к�
     var comments = function (count) { // cоздаем рандомные комментарии
       for (var i = 0; i < count; i++) {
       return {
-        // avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
+        avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
         // message: getRandomValueArr(USERS_MESSAGE),
-        name: getRandomValueArr(USER_NAME)
+        // name: getRandomValueArr(USER_NAME)
         };
       }
       };
