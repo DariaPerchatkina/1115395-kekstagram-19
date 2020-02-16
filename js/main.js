@@ -76,21 +76,23 @@ var photoRandomCreate = function (count) { // создаем функцию, к�
     };
     likes(likesMin, likesMax);
 
-    var comments = function () { // cоздаем рандомные комментарии
+    var comments = function (count) { // cоздаем рандомные комментарии
+      for (var i = 0; i < count; i++) {
       return {
-        avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
-        message: getRandomValueArr(USERS_MESSAGE),
+        // avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
+        // message: getRandomValueArr(USERS_MESSAGE),
         name: getRandomValueArr(USER_NAME)
         };
+      }
       };
-        comments();
+        comments(COUNT);
 
     var url = ['photos/' + getRandomNoRepeat(indexRandomCreate(COUNT, indexFotoArr)) + '.jpg']; // рандомное url
 
-   photoArr.push({url: url,
+    photoArr.push({url: url,
           description: description,
           likes: likes,
-          comments: comments
+          // comments: comments
       });
     }
     return photoArr;
