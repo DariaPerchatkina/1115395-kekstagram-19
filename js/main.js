@@ -109,12 +109,12 @@ var renderPhotos = function (photoElem) {
 };
 renderPhotos(photos);
 
-var renderComment =  function(comment) { // создаем функцию, для формирования элеmента с данными комментов
-  var commentElement = document.querySelector('.social__comment').cloneNode(true); // делаем дубликат узла template
+var renderComment =  function(comments) { // создаем функцию, для формирования элеmента с данными комментов
+  var commentElement = document.querySelector('.social__comments').cloneNode(true); // делаем дубликат узла template
 
-  commentElement.querySelector('.social__picture').src = comment.url; // находим в ДОМ адрес изображение аватарки и подставляем фото автора коммента
-  commentElement.querySelector('.social__picture').alt = comment.name; // -||- описание изображения и вписываем имя авора коммента
-  commentElement.querySelector('.social__text').textContent = comment.message; //  -||- парагараф с текстом комментария и вставляем текст
+  commentElement.querySelector('.social__picture').src = comments.avatar; // находим в ДОМ адрес изображение аватарки и подставляем фото автора коммента
+  commentElement.querySelector('.social__picture').alt = comments.name; // -||- описание изображения и вписываем имя авора коммента
+  commentElement.querySelector('.social__text').textContent = comments.message; //  -||- парагараф с текстом комментария и вставляем текст
   return commentElement; // возвращаем полученный склонированный элемент с новым содержимым
 };
 
