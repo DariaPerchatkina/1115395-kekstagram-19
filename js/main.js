@@ -41,10 +41,10 @@ var COUNT = 25;
 var likesMin = 15;
 var likesMax = 250;
 
-
 var getRandomValue = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
+
 
 var getRandomValueArr = function (arr) { // генерируем случайное чисто из массива
   return arr[Math.floor(Math.random() * arr.length)];
@@ -68,20 +68,12 @@ var photoRandomCreate = function (count) { // создаем функцию, к�
 
   for (var i = 0; i < count; i++) { // условия работы цикла
 
-    var comments = function () { // cоздаем рандомные комментарии
-      return {
-        avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
-        message: getRandomValueArr(USERS_MESSAGES),
-        name: getRandomValueArr(USER_NAMES)
-      };
-    };
-    comments(COUNT);
-
-    photoArr.push({url: 'photos/' + getRandomNoRepeat(indexRandomCreate(COUNT, indexFotoArr)) + '.jpg',
+    photoArr.push({
+      url: 'photos/' + getRandomNoRepeat(indexRandomCreate(0, indexFotoArr)) + '.jpg',
       likes: getRandomValue(likesMin, likesMax),
       comments: {
         avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
-        message: getRandomValueArr(USERS_MESSAGES),
+        message: USERS_MESSAGES[getRandomValue(0, USERS_MESSAGES.length - 1)],
         name: getRandomValueArr(USER_NAMES)
       }
     });
