@@ -1,7 +1,10 @@
 'use strict';
 
-var USER_NAME = ['Петька', 'Максим', 'Аня', 'Лёля', 'Артем', 'Саша', 'Костя', 'Ира']; // создает массив пользователей
-var USERS_MESSAGE = [ // создает массив с комментариями
+var userDialog = document.querySelector('.big-picture'); // находит по классу разметке элемент с большой картинкой
+userDialog.classList.remove('hidden'); // удаляет класс hidden
+
+var USER_NAMES = ['Петька', 'Максим', 'Аня', 'Лёля', 'Артем', 'Саша', 'Костя', 'Ира']; // создает массив пользователей
+var USERS_MESSAGES = [ // создает массив с комментариями
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -41,10 +44,10 @@ var COUNT = 25;
 var likesMin = 15;
 var likesMax = 250;
 
-
 var getRandomValue = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
+
 
 var getRandomValueArr = function (arr) { // генерируем случайное чисто из массива
   return arr[Math.floor(Math.random() * arr.length)];
@@ -68,18 +71,14 @@ var photoRandomCreate = function (count) { // создаем функцию, к�
 
   for (var i = 0; i < count; i++) { // условия работы цикла
 
-    var comments = function () { // cоздаем рандомные комментарии
-      return {
-        avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
-        message: getRandomValueArr(USERS_MESSAGE),
-        name: getRandomValueArr(USER_NAME)
-      };
-    };
-    comments(COUNT);
-
-    photoArr.push({url: 'photos/' + getRandomNoRepeat(indexRandomCreate(COUNT, indexFotoArr)) + '.jpg',
+    photoArr.push({
+      url: 'photos/' + getRandomNoRepeat(indexRandomCreate(0, indexFotoArr)) + '.jpg',
       likes: getRandomValue(likesMin, likesMax),
-      comments: getRandomValue(comments)
+      comments: {
+        avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
+        message: USERS_MESSAGES[getRandomValue(0, USERS_MESSAGES.length - 1)],
+        name: getRandomValueArr(USER_NAMES)
+      }
     });
   }
   return photoArr;
@@ -94,8 +93,8 @@ var renderPhoto = function (photo) { // создаем функцию, для ф
   var photoElement = similarUserPhotoTemplate.cloneNode(true); // делаем дубликат узла template
 
   photoElement.querySelector('.picture__img').src = photo.url;
-  photoElement.querySelector('.picture__comments').textContent = photo.comments; // находим в ДОМ div c классом .setup-similar-label и задаем ему текстовое содержимое
-  photoElement.querySelector('.picture__likes').textContent = photo.likes; // по аналогии с цветами
+  photoElement.querySelector('.picture__comments').textContent = photo.comments.length; // находим в ДОМ div c классом .setup-similar-label и задаем ему текстовое содержимое
+  photoElement.querySelector('.picture__likes').textContent = photo.likes;
 
   return photoElement; // возвращаем полученный склонированный элемент с новым содержимым
 };
@@ -109,3 +108,13 @@ var renderPhotos = function (photoElem) {
   pictures.appendChild(fragment); // добавляет фрагмент в разметку
 };
 renderPhotos(photos);
+
+var renderComment =  function(comment) { // создаем функцию, для формирования элеmента с данными комментов
+  var commentElement = document.querySelector('.social__comment').cloneNode(true); // делаем дубликат узла template
+
+  commentElement.querySelector('.social__picture').src = comment.url; // находим в ДОМ адрес изображение аватарки и подставляем фото автора коммента
+  commentElement.querySelector('.social__picture').alt = comment.name; // -||- описание изображения и вписываем имя авора коммента
+  commentElement.querySelector('.social__text').textContent = comment.message; //  -||- парагараф с текстом комментария и вставляем текст
+  return commentElement; // возвращаем полученный склонированный элемент с новым содержимым
+};
+
