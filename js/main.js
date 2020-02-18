@@ -1,7 +1,7 @@
 'use strict';
 
-var USER_NAME = ['Петька', 'Максим', 'Аня', 'Лёля', 'Артем', 'Саша', 'Костя', 'Ира']; // создает массив пользователей
-var USERS_MESSAGE = [ // создает массив с комментариями
+var USER_NAMES = ['Петька', 'Максим', 'Аня', 'Лёля', 'Артем', 'Саша', 'Костя', 'Ира']; // создает массив пользователей
+var USERS_MESSAGES = [ // создает массив с комментариями
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -68,21 +68,21 @@ var photoRandomCreate = function (count) { // создаем функцию, к�
 
   for (var i = 0; i < count; i++) { // условия работы цикла
 
-    // var comments = function () { // cоздаем рандомные комментарии
-    //   return {
-    //     avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
-    //     message: getRandomValueArr(USERS_MESSAGE),
-    //     name: getRandomValueArr(USER_NAME)
-    //   };
-    // };
-    // comments(COUNT);
+    var comments = function () { // cоздаем рандомные комментарии
+      return {
+        avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
+        message: getRandomValueArr(USERS_MESSAGES),
+        name: getRandomValueArr(USER_NAMES)
+      };
+    };
+    comments(COUNT);
 
     photoArr.push({url: 'photos/' + getRandomNoRepeat(indexRandomCreate(COUNT, indexFotoArr)) + '.jpg',
       likes: getRandomValue(likesMin, likesMax),
       comments: {
         avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
-        message: getRandomValueArr(USERS_MESSAGE),
-        name: getRandomValueArr(USER_NAME)
+        message: getRandomValueArr(USERS_MESSAGES),
+        name: getRandomValueArr(USER_NAMES)
       }
     });
   }
