@@ -68,18 +68,22 @@ var photoRandomCreate = function (count) { // создаем функцию, к�
 
   for (var i = 0; i < count; i++) { // условия работы цикла
 
-    var comments = function () { // cоздаем рандомные комментарии
-      return {
-        avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
-        message: getRandomValueArr(USERS_MESSAGE),
-        name: getRandomValueArr(USER_NAME)
-      };
-    };
-    comments(COUNT);
+    // var comments = function () { // cоздаем рандомные комментарии
+    //   return {
+    //     avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
+    //     message: getRandomValueArr(USERS_MESSAGE),
+    //     name: getRandomValueArr(USER_NAME)
+    //   };
+    // };
+    // comments(COUNT);
 
     photoArr.push({url: 'photos/' + getRandomNoRepeat(indexRandomCreate(COUNT, indexFotoArr)) + '.jpg',
       likes: getRandomValue(likesMin, likesMax),
-      comments: getRandomValue(comments)
+      comments: {
+        avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
+        message: getRandomValueArr(USERS_MESSAGE),
+        name: getRandomValueArr(USER_NAME)
+      }
     });
   }
   return photoArr;
@@ -94,7 +98,7 @@ var renderPhoto = function (photo) { // создаем функцию, для ф
   var photoElement = similarUserPhotoTemplate.cloneNode(true); // делаем дубликат узла template
 
   photoElement.querySelector('.picture__img').src = photo.url;
-  photoElement.querySelector('.picture__comments').textContent = photo.comments; // находим в ДОМ div c классом .setup-similar-label и задаем ему текстовое содержимое
+  photoElement.querySelector('.picture__comments').textContent = photo.comments.length; // находим в ДОМ div c классом .setup-similar-label и задаем ему текстовое содержимое
   photoElement.querySelector('.picture__likes').textContent = photo.likes; // по аналогии с цветами
 
   return photoElement; // возвращаем полученный склонированный элемент с новым содержимым
