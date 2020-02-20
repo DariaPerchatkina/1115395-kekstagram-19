@@ -37,11 +37,13 @@ var PHOTO_DESCRIPTION = [
   'Умей радоваться мелочам'
 ];
 
-var COUNT = 25;
-var likesMin = 15;
+var COUNT = 25; // число объектов в массиве
+var likesMin = 15; // минимально кол-во лайков
 var likesMax = 250;
+var numberMin = 1; // номер картинки для аватара
+var numberMax = 6;
 
-var getRandomValue = function (min, max) {
+var getRandomValue = function (min, max) { // ф-я для получения рандомного числа
   return Math.floor(Math.random() * (max - min) + min);
 };
 
@@ -63,27 +65,39 @@ var indexRandomCreate = function (count, arr) { // создаем функцию
 };
 indexRandomCreate(COUNT, indexFotoArr);
 
+var avatar = 'img/avatar' + getRandomValue(numberMin, numberMax) + '.svg';
+var message = USERS_MESSAGES[getRandomValue(0, USERS_MESSAGES.length - 1)];
+var name = getRandomValueArr(USER_NAMES);
 
-var comments = function (count) { // cоздаем рандомные комментарии
-  for (var i = 0; i < count; i++) { // условия работы цикла
+var createComments = function (avatar, message, name) { // cоздаем рандомные комментарии
+  for (var i = 0; i < COUNT; i++)
   return {
-    avatar: 'img/avatar' + getRandomValue(1, 6) + '.svg',
-    message: USERS_MESSAGES[getRandomValue(0, USERS_MESSAGES.length - 1)],
-    name: getRandomValueArr(USER_NAMES)
+    avatar: avatar,
+    message: message,
+    name: name
   }
-}
 };
+console.log(createComments);
+
+var createCommentsArr = function (count) {
+  var commentArr = [];
+  for (var i = 0; i < count; i++) {
+  commentArr.push(createComments(avatar, message, name))
+  }
+  return commentArr;
+};
+console.log(createCommentsArr(COUNT));
 
 var photoRandomCreate = function (count) { // создаем функцию, которая будет генерировать случайных набор фото
   var photoArr = []; // делаем пустой массив данных
 
   for (var i = 0; i < count; i++) { // условия работы цикла
-    
+
     photoArr.push({
       url: 'photos/' + getRandomNoRepeat(indexRandomCreate(0, indexFotoArr)) + '.jpg',
       description: getRandomValueArr(PHOTO_DESCRIPTION),
       likes: getRandomValue(likesMin, likesMax),
-      comments: comments(COUNT)
+      comments: getRandomValueArr(createCommentsArr(COUNT))
     });
   }
   return photoArr;
@@ -98,7 +112,7 @@ var renderPhoto = function (photo) { // создаем функцию, для ф
   var photoElement = similarUserPhotoTemplate.cloneNode(true); // делаем дубликат узла template
 
   photoElement.querySelector('.picture__img').src = photo.url;
-  photoElement.querySelector('.picture__comments').textContent = photo.comments.message.length; // NB! работает не так, как надо, ну на мой взгляд!! 
+  photoElement.querySelector('.picture__comments').textContent = photo.length; // NB! работает не так, как надо, ну на мой взгляд!!
   photoElement.querySelector('.picture__likes').textContent = photo.likes;
 
   return photoElement; // возвращаем полученный склонированный элемент с новым содержимым
@@ -114,21 +128,40 @@ var renderPhotos = function (photoElem) {
 };
 renderPhotos(photos);
 
-
 // var bigPicture = document.querySelector('.big-picture'); // находит по классу разметке элемент с большой картинкой
 // bigPicture.classList.remove('hidden'); // удаляет класс hidden
 
-// var renderComment =  function(arrComment) { // создаем функцию, для формирования элеmента с данными комментов
-//   var commentElement = document.querySelector('.social__comments').cloneNode(true); // делаем дубликат узла template
+// var commentsList = document.querySelector('.social__comments');
+// var commentItem = commentsList.querySelector('.social__comment');
 
-//   commentElement.querySelector('.social__picture').src = arrComment[0].avatar.url; // находим в ДОМ адрес изображение аватарки и подставляем фото автора коммента
-//   commentElement.querySelector('.social__picture').alt = arrComment[0].name; // -||- описание изображения и вписываем имя авора коммента
-//   commentElement.querySelector('.social__text').textContent = arrComment[0].message; //  -||- парагараф с текстом комментария и вставляем текст
-//   commentElement.querySelector('.big-picture__img').src = comment.avatar.url; // находим в ДОМ адрес изображение аватарки и подставляем фото автора коммента
-//   commentElement.querySelector('.likes-count').textContent = photo.likes; // -||- описание изображения и вписываем имя авора коммента
-//   commentElement.querySelector('.comments-count').textContent = photo.comments; //  -||- парагараф с текстом комментария и вставляем текст
-  
-//   return commentElement; // возвращаем полученный склонированный элемент с новым содержимым
+// var getComments = function (photo) {
+//   var comment = commentItem.cloneNode(true);
+//   comment.querySelector('.social__picture').src = photo.avatar;
+//   comment.querySelector('.social__picture').alt = photo.name;
+//   comment.querySelector('.social__text').textContent = photo.message;
+//   return comment;
 // };
 
-// renderComment(comments);
+// var makeComments = function (photoComments) {
+//   var fragment = document.createDocumentFragment();
+//   for (var i = 0; i < photoComments.comments.length; i++) {
+//     fragment.appendChild(getComments(photoComments.comments[i]));
+//   }
+//   return commentsList.appendChild(fragment);
+// };
+
+// var bigRenderPhoto = function (photo) { // создаем функцию, для формирования элеmента с данными фото
+//   var bigPhotoElement = bigPicture.cloneNode(true); // делаем дубликат узла template
+
+//   bigPhotoElement.querySelector('.big-picture__img').src = photo.url;
+//   bigPhotoElement.querySelector('.comments-count').textContent = photo.comments.length; // NB! работает не так, как надо, ну на мой взгляд!!
+//   bigPhotoElement.querySelector('.likes-count').textContent = photo.likes;
+//   bigPhotoElement.querySelector('.social__caption').textContent = photo.description;
+//   return bigPhotoElement; // возвращаем полученный склонированный элемент с новым содержимым
+// };
+
+// bigPhotoElement.querySelector('.social__comment').classList.add('hidden');
+// bigPhotoElement.querySelector('.comments-loader').classList.add('hidden');
+// document.body.classList.add('modal-open');
+
+// bigRenderPhoto(photoArr[0]);
