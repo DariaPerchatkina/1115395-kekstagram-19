@@ -43,7 +43,6 @@ var likesMax = 250;
 var avatarNumberMin = 1;
 var avatarNumberMax = 6;
 var commentCountMax = 6;
-var commentCountMin = 1;
 
 var getRandomValue = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -67,7 +66,7 @@ var indexRandomCreate = function (count, arr) { // создаем функцию
 indexRandomCreate(COUNT, indexFotoArr);
 
 var getRandomElement = function (arr) {
-  return arr[getRandomValue(0, arr.length - 1)]
+  return arr[getRandomValue(0, arr.length - 1)];
 };
 
 var comments = function () { // cоздаем рандомные комментарии
@@ -75,7 +74,7 @@ var comments = function () { // cоздаем рандомные коммент�
     avatar: 'img/avatar' + getRandomValue(avatarNumberMin, avatarNumberMax) + '.svg',
     message: getRandomElement(USERS_MESSAGES),
     name: getRandomElement(USER_NAMES)
-  }
+  };
 };
 
 var createComment = [];
@@ -116,31 +115,6 @@ var renderPhoto = function (photo) { // создаем функцию, для ф
   return photoElement; // возвращаем полученный склонированный элемент с новым содержимым
 };
 
-var renderComment = function () {
-  var simularUserCommentTemplate = document.createElement('li');
-  simularUserCommentTemplate.classList.add('social__comment');
-
-  // var commentDescription = document.createElement('img');
-  // commentDescription.classList.add('social__picture');
-  // commentDescription.querySelector(.)
-  return renderComment;
-};
-
-var renderBigPicture =  function(photoRandomCreate) { // создаем функцию, для формирования элеmента с данными комментов
-  // var commentElement = document.querySelector('.social__comments').cloneNode(true); // делаем дубликат узла template
-
-  renderBigPicture.querySelector('.big-picture__img').src = photoArr.url; // находим в ДОМ адрес изображение аватарки и подставляем фото автора коммента
-  renderBigPicture.querySelector('.big-picture__img').alt = photoArr.description; // находим в ДОМ адрес изображение аватарки и подставляем фото автора коммента
-  renderBigPicture.querySelector('.social__caption').textContent = photoArr.description; // находим в ДОМ адрес изображение аватарки и подставляем фото автора коммента
-  renderBigPicture.querySelector('.likes-count').textContent = photoArr.likes; // -||- описание изображения и вписываем имя авора коммента
-  renderBigPicture.querySelector('.comments-count').textContent = photoArr.comments; //  -||- парагараф с текстом комментария и вставляем текст
-  for (var i = 0; i < commentCount; i++) {
-    simularUserCommentTemplate.appendChild(renderComment());
-  }
-};
-//   return commentElement; // возвращаем полученный склонированный элемент с новым содержимым
-// };
-
 var renderPhotos = function (photoElem) {
   var fragment = document.createDocumentFragment(); // создаем пустой объект DocumentFragment
   var pictures = document.querySelector('.pictures');
@@ -150,3 +124,47 @@ var renderPhotos = function (photoElem) {
   pictures.appendChild(fragment); // добавляет фрагмент в разметку
 };
 renderPhotos(photos);
+
+var bigPicture = document.querySelector('.big-picture'); // находит по классу разметке элемент с большой картинкой
+bigPicture.classList.remove('hidden'); // удаляет класс hidden
+var commentsList = document.querySelector('.social__comments'); // находит по классу в разметке список с комментариями
+var commentItem = commentsList.querySelector('.social__comment'); // находит по классу элемент списка
+
+// // var similarUserPhotoTemplate = document.querySelector('#picture')
+// // .content
+// // .querySelector('.picture');
+
+var renderComment = function (comment) {  // создаем функцию, для формирования коммента для элемента списка
+  var commentElement = commentItem.cloneNode(true);
+
+  commentElement.querySelector('.social__picture').src = comment.avatar;
+  commentElement.querySelector('.social__picture').alt = comment.name;
+  commentElement.querySelector('.social__text').textContent = comment.message;
+
+  return commentElement;
+};
+console.log(renderComment(createComment));
+
+var renderComments = function (commentsElem) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < commentsElem.length; i++) {
+    fragment.appendChild(renderComment(commentsElem[i]));
+  }
+  return commentsList.appendChild(fragment);
+};
+renderComments(photos);
+
+var openBigPicture = function (photoArr) {
+
+  bigPicture.querySelector('.big-picture__img').src = photoArr.url; // находим в ДОМ адрес изображение аватарки и подставляем фото автора коммента
+  bigPicture.querySelector('.social__caption').textContent = photoArr.description; // находим в ДОМ адрес изображение аватарки и подставляем фото автора коммента
+  bigPicture.querySelector('.likes-count').textContent = photoArr.likes; // -||- описание изображения и вписываем имя авора коммента
+  bigPicture.querySelector('.comments-count').textContent = photoArr.comments; //
+  renderComments(photoArr);
+};
+
+bigPicture.querySelector('.social__comment-count').classList.add('hidden');
+bigPicture.querySelector('.comments-loader').classList.add('hidden');
+document.body.classList.add('modal-open');
+
+openBigPicture(createComment[0]);
