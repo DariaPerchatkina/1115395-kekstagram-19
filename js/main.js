@@ -85,6 +85,8 @@ var createRandomComments = function () {
   return createComment;
 };
 
+console.log(createComment[0]);
+
 var photoRandomCreate = function (count) { // создаем функцию, которая будет генерировать случайных набор фото
   var photoArr = []; // делаем пустой массив данных
 
@@ -134,12 +136,12 @@ var commentItem = commentsList.querySelector('.social__comment'); // наход�
 // // .content
 // // .querySelector('.picture');
 
-var renderComment = function (comment) {  // создаем функцию, для формирования коммента для элемента списка
+var renderComment = function (comments) {  // создаем функцию, для формирования коммента для элемента списка
   var commentElement = commentItem.cloneNode(true);
 
-  commentElement.querySelector('.social__picture').src = comment.avatar;
-  commentElement.querySelector('.social__picture').alt = comment.name;
-  commentElement.querySelector('.social__text').textContent = comment.message;
+  commentElement.querySelector('.social__picture').src = comments.avatar;
+  commentElement.querySelector('.social__picture').alt = comments.name;
+  commentElement.querySelector('.social__text').textContent = comments.message;
 
   return commentElement;
 };
@@ -153,6 +155,7 @@ var renderComments = function (commentsElem) {
   return commentsList.appendChild(fragment);
 };
 renderComments(photos);
+console.log(renderComments(photos));
 
 var openBigPicture = function (photoArr) {
 
@@ -163,8 +166,10 @@ var openBigPicture = function (photoArr) {
   renderComments(photoArr);
 };
 
+openBigPicture(createComment[0]);
+console.log(openBigPicture(createComment[0]));
+
 bigPicture.querySelector('.social__comment-count').classList.add('hidden');
 bigPicture.querySelector('.comments-loader').classList.add('hidden');
 document.body.classList.add('modal-open');
 
-openBigPicture(createComment[0]);
