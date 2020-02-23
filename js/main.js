@@ -131,7 +131,7 @@ bigPicture.classList.remove('hidden'); // удаляет класс hidden
 var commentsList = document.querySelector('.social__comments'); // находит по классу в разметке список с комментариями
 var commentItem = commentsList.querySelector('.social__comment'); // находит по классу элемент списка
 
-var renderCommentElement= function (comment) {  // создаем функцию, для формирования коммента для элемента списка
+var renderCommentElement = function (comment) { // создаем функцию, для формирования коммента для элемента списка
   var commentElement = commentItem.cloneNode(true); // делаем дубликат узла template
 
   commentElement.querySelector('.social__picture').src = comment.avatar; // заполняет найденный по классу src содердимым из объекта commentObj
