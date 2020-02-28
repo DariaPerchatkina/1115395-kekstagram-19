@@ -162,3 +162,94 @@ openBigPicture(photos[8]);
 bigPicture.querySelector('.social__comment-count').classList.add('hidden');
 bigPicture.querySelector('.comments-loader').classList.add('hidden');
 document.body.classList.add('modal-open');
+
+var uploadFile = document.querySelector('#upload-file');
+uploadFile.classList.remove('hidden');
+
+var form = document.querySelector('img-upload__form');
+
+var filterChangeHandler = function (evt) {
+  uploadFile.textContent = evt.target.value;
+};
+form.addEventListener('change', filterChangeHandler);
+
+// //  работа со сценариями взаимодейтсвия
+// var setup = document.querySelector('.setup'); // находит блок setup в разметке
+// var setupOpen = document.querySelector('.setup-open'); // находит элемент с классом setup-open
+// var setupClose = setup.querySelector('.setup-close'); // нахoдит элемент с классом setup-close
+// var userNameInput = setup.querySelector('.setup-user-name');
+// var ESC_KEY = 'Escape';
+// var ENTER_KEY = 'Enter';
+
+// // var MIN_NAME_LENGTH = 2;
+
+// var onPopupEscPress = function (evt) {
+//   if (evt.key === ESC_KEY) {
+//     closePopup();
+//   }
+// };
+
+// var openPopup = function () {
+//   setup.classList.remove('hidden');
+//   document.addEventListener('keydown', onPopupEscPress);
+// };
+
+// var closePopup = function () {
+//   setup.classList.add('hidden');
+//   document.removeEventListener('keydown', onPopupEscPress);
+// };
+
+// setupOpen.addEventListener('click', function () {
+//   openPopup();
+// });
+
+// setupOpen.addEventListener('keydown', function (evt) {
+//   if (evt.key === ENTER_KEY) {
+//     openPopup();
+//   }
+// });
+
+// setupClose.addEventListener('click', function () {
+//   closePopup();
+// });
+
+// setupClose.addEventListener('keydown', function (evt) {
+//   if (evt.key === ENTER_KEY) {
+//     closePopup();
+//   }
+// });
+
+// userNameInput.addEventListener('invalid', function () {
+//   if (userNameInput.validity.tooShort) {
+//     userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+//   } else if (userNameInput.validity.tooLong) {
+//     userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов');
+//   } else if (userNameInput.validity.valueMissing) {
+//     userNameInput.setCustomValidity('Обязательное поле');
+//   } else {
+//     userNameInput.setCustomValidity(''); // сбрасывает значение поля
+//   }
+// });
+
+// var wizardCoat = setup.querySelector('.wizard-coat');
+// var wizardEyes = setup.querySelector('.wizard-eyes');
+// var fireballSetup = setup.querySelector('.setup-fireball-wrap');
+
+// wizardCoat.addEventListener('click', function () {
+//   var playerWizardCoatColor = getRandomValueArr(coatColorArr);
+//   wizardCoat.style.fill = playerWizardCoatColor;
+//   setup.querySelector('.setup-player').querySelector('input[name="coat-color"]').value = playerWizardCoatColor;
+// });
+
+// wizardEyes.addEventListener('click', function () {
+//   var playerWizardEyesColor = getRandomValueArr(eyesColorArr);
+//   wizardEyes.style.fill = playerWizardEyesColor;
+//   setup.querySelector('.setup-player').querySelector('input[name="eyes-color"]').value = playerWizardEyesColor;
+
+// });
+
+// fireballSetup.addEventListener('click', function () {
+//   var playerFireballColor = getRandomValueArr(fireballColorArr);
+//   fireballSetup.style.background = playerFireballColor;
+//   fireballSetup.querySelector('input').value = playerFireballColor;
+// });
