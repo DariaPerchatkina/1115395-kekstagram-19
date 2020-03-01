@@ -197,6 +197,35 @@ uploadCancel.addEventListener('click', function () { // если происхо�
   document.removeEventListener('keydown', onPopupEscPress); // и слушается событие нажатия кнопки клавиатуры и выполяется функция закрытия формы
 });
 
+// редактирование изображения
+var scaleCtrlSmaller = document.querySelector('scale__control--smaller');
+var scaleCtrlBigger = document.querySelector('scale__control--bigger');
+var scaleCtrlValue = document.querySelector('.scale__control--value');
+
+// var wizardCoat = setup.querySelector('.wizard-coat');
+// var wizardEyes = setup.querySelector('.wizard-eyes');
+// var fireballSetup = setup.querySelector('.setup-fireball-wrap');
+
+// wizardCoat.addEventListener('click', function () {
+//   var playerWizardCoatColor = getRandomValueArr(coatColorArr);
+//   wizardCoat.style.fill = playerWizardCoatColor;
+//   setup.querySelector('.setup-player').querySelector('input[name="coat-color"]').value = playerWizardCoatColor;
+// });
+
+// wizardEyes.addEventListener('click', function () {
+//   var playerWizardEyesColor = getRandomValueArr(eyesColorArr);
+//   wizardEyes.style.fill = playerWizardEyesColor;
+//   setup.querySelector('.setup-player').querySelector('input[name="eyes-color"]').value = playerWizardEyesColor;
+
+// });
+
+// fireballSetup.addEventListener('click', function () {
+//   var playerFireballColor = getRandomValueArr(fireballColorArr);
+//   fireballSetup.style.background = playerFireballColor;
+//   fireballSetup.querySelector('input').value = playerFireballColor;
+// });
+
+
 // var form = document.querySelector('img-upload__form');
 
 // var filterChangeHandler = function (evt) {
@@ -262,25 +291,4 @@ uploadCancel.addEventListener('click', function () { // если происхо�
 //   }
 // });
 
-// var wizardCoat = setup.querySelector('.wizard-coat');
-// var wizardEyes = setup.querySelector('.wizard-eyes');
-// var fireballSetup = setup.querySelector('.setup-fireball-wrap');
 
-// wizardCoat.addEventListener('click', function () {
-//   var playerWizardCoatColor = getRandomValueArr(coatColorArr);
-//   wizardCoat.style.fill = playerWizardCoatColor;
-//   setup.querySelector('.setup-player').querySelector('input[name="coat-color"]').value = playerWizardCoatColor;
-// });
-
-// wizardEyes.addEventListener('click', function () {
-//   var playerWizardEyesColor = getRandomValueArr(eyesColorArr);
-//   wizardEyes.style.fill = playerWizardEyesColor;
-//   setup.querySelector('.setup-player').querySelector('input[name="eyes-color"]').value = playerWizardEyesColor;
-
-// });
-
-// fireballSetup.addEventListener('click', function () {
-//   var playerFireballColor = getRandomValueArr(fireballColorArr);
-//   fireballSetup.style.background = playerFireballColor;
-//   fireballSetup.querySelector('input').value = playerFireballColor;
-// });
