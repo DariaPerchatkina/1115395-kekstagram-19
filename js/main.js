@@ -163,15 +163,46 @@ bigPicture.querySelector('.social__comment-count').classList.add('hidden');
 bigPicture.querySelector('.comments-loader').classList.add('hidden');
 document.body.classList.add('modal-open');
 
-var uploadFile = document.querySelector('#upload-file');
-uploadFile.classList.remove('hidden');
+// var uploadFile = document.querySelector('#upload-file');
+var openUploadFile = document.querySelector('img-upload__input'); // находит в разметке по id скрытый инпут
+var uploadCancel = document.querySelector('#upload-cancel'); // находит в разметке по id кнопку отмены
+var uploadForm = document.querySelector('img-upload__overlay'); // находит в разметке по id форму
+var ESC_KEY = 'Escape';
+// var ENTER_KEY = 'Enter';
 
-var form = document.querySelector('img-upload__form');
-
-var filterChangeHandler = function (evt) {
-  uploadFile.textContent = evt.target.value;
+var formOpen = function () { // описывает открытие формы
+  uploadForm.classList.remove('hidden'); // у формы в расметке удаляет класс hidden
+  document.body.classList.add('modal-open'); // добавляет body класс modal-open
 };
-form.addEventListener('change', filterChangeHandler);
+
+var formClose = function () { // функция закрытия формы
+  uploadForm.classList.add('hidden'); // добавляет класс hidden
+  document.body.classList.remove('modal-open'); // удаляет класс открытия модального окна
+};
+
+var onPopupEscPress = function (evt) { // управление модалкой при помощи клавиатуры
+  if (evt.key === ESC_KEY) { // если событие с клавиатуры строго равно значению эскейп на клавиатуре, то вызовется функция закрытия попапа
+
+    formClose();
+  }
+};
+
+openUploadFile.addEventListener('change', function () { // При наступлении события change на этом поле, можно сразу показывать форму редактирования изображения.
+  formOpen(); // закрытия формы(добавляется класс для скрытия)
+  document.addEventListener('keydown', onPopupEscPress); // и слушается событие нажатия кнопки клавиатуры и выполяется функция закрытия формы
+});
+
+uploadCancel.addEventListener('click', function () { // если происходит событие клик по кнопке отмены, то срабатывает функция
+  formClose(); // происходит вызов функции закрытия формы, навешиваем класс hidden
+  document.removeEventListener('keydown', onPopupEscPress); // и слушается событие нажатия кнопки клавиатуры и выполяется функция закрытия формы
+});
+
+// var form = document.querySelector('img-upload__form');
+
+// var filterChangeHandler = function (evt) {
+//   uploadFile.textContent = evt.target.value;
+// };
+// form.addEventListener('change', filterChangeHandler);
 
 // //  работа со сценариями взаимодейтсвия
 // var setup = document.querySelector('.setup'); // находит блок setup в разметке
