@@ -127,7 +127,7 @@ var renderPhotos = function (photoElem) {
 renderPhotos(photos);
 
 var bigPicture = document.querySelector('.big-picture'); // находит по классу разметке элемент с большой картинкой
-bigPicture.classList.remove('hidden'); // удаляет класс hidden
+// bigPicture.classList.remove('hidden'); // удаляет класс hidden // временно скроем большую фотку
 var commentsList = document.querySelector('.social__comments'); // находит по классу в разметке список с комментариями
 var commentItem = commentsList.querySelector('.social__comment'); // находит по классу элемент списка
 
@@ -163,10 +163,11 @@ bigPicture.querySelector('.social__comment-count').classList.add('hidden');
 bigPicture.querySelector('.comments-loader').classList.add('hidden');
 document.body.classList.add('modal-open');
 
+
 // var uploadFile = document.querySelector('#upload-file');
-var openUploadFile = document.querySelector('img-upload__input'); // находит в разметке по id скрытый инпут
+var openUploadFile = document.querySelector('.img-upload__input'); // находит в разметке по id скрытый инпут
 var uploadCancel = document.querySelector('#upload-cancel'); // находит в разметке по id кнопку отмены
-var uploadForm = document.querySelector('img-upload__overlay'); // находит в разметке по id форму
+var uploadForm = document.querySelector('.img-upload__overlay'); // находит в разметке по id форму
 var ESC_KEY = 'Escape';
 // var ENTER_KEY = 'Enter';
 
@@ -188,7 +189,7 @@ var onPopupEscPress = function (evt) { // управление модалкой 
 };
 
 openUploadFile.addEventListener('change', function () { // При наступлении события change на этом поле, можно сразу показывать форму редактирования изображения.
-  formOpen(); // закрытия формы(добавляется класс для скрытия)
+  formOpen(); // открытия формы(удаляет класс скрытия)
   document.addEventListener('keydown', onPopupEscPress); // и слушается событие нажатия кнопки клавиатуры и выполяется функция закрытия формы
 });
 
@@ -197,10 +198,24 @@ uploadCancel.addEventListener('click', function () { // если происхо�
   document.removeEventListener('keydown', onPopupEscPress); // и слушается событие нажатия кнопки клавиатуры и выполяется функция закрытия формы
 });
 
-// редактирование изображения
-var scaleCtrlSmaller = document.querySelector('scale__control--smaller');
-var scaleCtrlBigger = document.querySelector('scale__control--bigger');
-var scaleCtrlValue = document.querySelector('.scale__control--value');
+// редактирование размера изображения
+// var scaleCtrlSmaller = document.querySelector('scale__control--smaller');
+// var scaleCtrlBigger = document.querySelector('scale__control--bigger');
+// var scaleCtrlValue = document.querySelector('.scale__control--value');
+
+// scaleCtrlSmaller.addEventListener('click', function () {
+//   if ();
+// });
+
+// наложение эффекта
+var effectList = document.querySelector('.effects__list');
+var imgUploadPreview = document.querySelector('.img-upload__preview');
+
+var effectChangeHandler = function (evt) {
+  imgUploadPreview.classList.add('effects__preview--' + evt.target.value);
+};
+effectList.addEventListener('change', effectChangeHandler);
+
 
 // var wizardCoat = setup.querySelector('.wizard-coat');
 // var wizardEyes = setup.querySelector('.wizard-eyes');
