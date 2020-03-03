@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 'use strict';
 
 var USER_NAMES = ['Петька', 'Максим', 'Аня', 'Лёля', 'Артем', 'Саша', 'Костя', 'Ира']; // создает массив пользователей
@@ -164,7 +165,6 @@ bigPicture.querySelector('.comments-loader').classList.add('hidden');
 document.body.classList.add('modal-open');
 
 
-// var uploadFile = document.querySelector('#upload-file');
 var openUploadFile = document.querySelector('.img-upload__input'); // находит в разметке по id скрытый инпут
 var uploadCancel = document.querySelector('#upload-cancel'); // находит в разметке по id кнопку отмены
 var uploadForm = document.querySelector('.img-upload__overlay'); // находит в разметке по id форму
@@ -198,28 +198,71 @@ uploadCancel.addEventListener('click', function () { // если происхо�
   document.removeEventListener('keydown', onPopupEscPress); // и слушается событие нажатия кнопки клавиатуры и выполяется функция закрытия формы
 });
 
-// редактирование размера изображения
-var scaleCtrlSmaller = document.querySelector('scale__control--smaller');
-var scaleCtrlBigger = document.querySelector('scale__control--bigger');
-var scaleCtrlValue = document.querySelector('.scale__control--value');
-var effectLevelPin = document.querySelector('.effect-level__pin');
-var scaleMin = 0.25;
-var scaleMax = 1;
-
-
-// scaleCtrlSmaller.addEventListener('click', function () {
-//   if ();
-// });
-
 // наложение эффекта
 var effectList = document.querySelector('.effects__list');
 var imgUploadPreview = document.querySelector('.img-upload__preview');
 
 var effectChangeHandler = function (evt) {
-  if (evt.target && evt.target.matches('input[type="radio"]')){
+  if (evt.target && evt.target.matches('input[type="radio"]')) {
+    imgUploadPreview.classList = ''; // сбрасывает значение поля
     imgUploadPreview.classList.add('effects__preview--' + evt.target.value);
   }
-  imgUploadPreview.className(''); // сбрасывает значение поля
-  imgUploadPreview.classList.add('effects__preview--' + evt.target.value);
 };
 effectList.addEventListener('change', effectChangeHandler);
+
+// редактирование размера изображения
+var scaleCtrlSmaller = document.querySelector('.scale__control--smaller');
+var scaleCtrlBigger = document.querySelector('.scale__control--bigger');
+var scaleCtrlValue = document.querySelector('.scale__control--value');
+// var effectLevelPin = document.querySelector('.effect-level__pin');
+
+scaleCtrlValue.value = '100%'; // значение инпута со значением размера картинки(в разметке = 55%)
+
+// var getTransformImage = function (elementOfTransform, valueOfScale) { // зададим функцию, которая будет добавлять в файл со стилями параметр размера изображения
+//   elementOfTransform.style.tramsform = 'scale(' + (valueOfScale) + ')';
+// };
+
+var setControlValueDec = function (evt) { // функция, которая обрабатывает события
+  evt.preventDefault(); // не выолдняе действие по умолчанию
+  switch (scaleCtrlValue.value) { // заменяет множество циклов if-else, последовательно сравнивыает выражение с несколькими вариантами
+    case '50%': // если значение инпута scaleCtrlValue.value строго равно 50%, то выполняется директива case
+      scaleCtrlValue.value = '25%'; // значение инпута присваивается значение 25%
+      imgUploadPreview.style.transform = 'scale(' + (0.25) + ')'; // в style.css запишется значение scale: 0.25
+      break;
+    case '75%':
+      scaleCtrlValue.value = '50%';
+      imgUploadPreview.style.transform = 'scale(' + (0.5) + ')';
+      break;
+    case '100%':
+      scaleCtrlValue.value = '75%';
+      imgUploadPreview.style.transform = 'scale(' + (0.75) + ')';
+      break;
+  }
+};
+
+scaleCtrlSmaller.addEventListener('click', setControlValueDec); // кнопке "-" по клику будет присваиваться значение полученное в результате работы функции
+
+// scaleCtrlValue.value = '25%'; // значение инпута со значением размера картинки(в разметке = 55%)
+
+// var getTransformImage = function (elementOfTransform, valueOfScale) { // зададим функцию, которая будет добавлять в файл со стилями параметр размера изображения
+//   elementOfTransform.style.tramsform = 'scale(' + (valueOfScale) + ')';
+// };
+
+var setControlValueDown = function (evt) { // функция, которая обрабатывает события
+  evt.preventDefault(); // не выолдняе действие по умолчанию
+  switch (scaleCtrlValue.value) { // заменяет множество циклов if-else, последовательно сравнивыает выражение с несколькими вариантами
+    case '25%': // если значение инпута scaleCtrlValue.value строго равно 50%, то выполняется директива case
+      scaleCtrlValue.value = '50%'; // значение инпута присваивается значение 25%
+      imgUploadPreview.style.transform = 'scale(' + (0.5) + ')'; // в style.css запишется значение scale: 0.25
+      break;
+    case '50%':
+      scaleCtrlValue.value = '75%';
+      imgUploadPreview.style.transform = 'scale(' + (0.75) + ')';
+      break;
+    case '75%':
+      scaleCtrlValue.value = '100%';
+      imgUploadPreview.style.transform = 'scale(' + (1) + ')';
+      break;
+  }
+};
+scaleCtrlBigger.addEventListener('click', setControlValueDown);
