@@ -268,6 +268,16 @@ var setControlValueDown = function (evt) { // функция, которая о�
 scaleCtrlBigger.addEventListener('click', setControlValueDown);
 
 // валидация
+
+var textHashtags = document.querySelector('text__hashtags');
+
+textHashtags.addEventListener('input', function () {
+  var hashtagsArr = textHashtags.toLowerCase().split(' ');
+  textHashtags.setCustomValidity('');
+  if (hashtagsArr[0] !== ' ' ) {
+    return hashtagsArr;
+  }
+});
 // userNameInput.addEventListener('invalid', function () {
 //   if (userNameInput.validity.tooShort) {
 //     userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
