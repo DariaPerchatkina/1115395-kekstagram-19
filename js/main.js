@@ -214,13 +214,8 @@ effectList.addEventListener('change', effectChangeHandler);
 var scaleCtrlSmaller = document.querySelector('.scale__control--smaller');
 var scaleCtrlBigger = document.querySelector('.scale__control--bigger');
 var scaleCtrlValue = document.querySelector('.scale__control--value');
-// var effectLevelPin = document.querySelector('.effect-level__pin');
 
 scaleCtrlValue.value = '100%'; // значение инпута со значением размера картинки(в разметке = 55%)
-
-// var getTransformImage = function (elementOfTransform, valueOfScale) { // зададим функцию, которая будет добавлять в файл со стилями параметр размера изображения
-//   elementOfTransform.style.tramsform = 'scale(' + (valueOfScale) + ')';
-// };
 
 var setControlValueDec = function (evt) { // функция, которая обрабатывает события
   evt.preventDefault(); // не выолдняе действие по умолчанию
@@ -241,12 +236,6 @@ var setControlValueDec = function (evt) { // функция, которая об
 };
 
 scaleCtrlSmaller.addEventListener('click', setControlValueDec); // кнопке "-" по клику будет присваиваться значение полученное в результате работы функции
-
-// scaleCtrlValue.value = '25%'; // значение инпута со значением размера картинки(в разметке = 55%)
-
-// var getTransformImage = function (elementOfTransform, valueOfScale) { // зададим функцию, которая будет добавлять в файл со стилями параметр размера изображения
-//   elementOfTransform.style.tramsform = 'scale(' + (valueOfScale) + ')';
-// };
 
 var setControlValueDown = function (evt) { // функция, которая обрабатывает события
   evt.preventDefault(); // не выолдняе действие по умолчанию
@@ -269,13 +258,14 @@ scaleCtrlBigger.addEventListener('click', setControlValueDown);
 
 // валидация
 
-var textHashtags = document.querySelector('text__hashtags');
+var textHashtags = document.querySelector('.text__hashtags');
 var MAX_LENGTH_HASHTAG = 20;
 var HASHTAG_ARR_MAX_LENGTH = 5;
 var SYMBOL = /[a-z0-9а-яA-ZА-Я#]/;
 
 var hashtagsValidity = function (value) {
   var hashtagsArr = value.toLowerCase().split(' '); // делает массив хэшегов, записывает их через пробел
+  console.log(value);
 
   if (hashtagsArr.length === 0) {
     hashtagsArr.setCustomValidity('');
@@ -285,7 +275,7 @@ var hashtagsValidity = function (value) {
     var repeatHashtag = hashtagsArr.filter(function (hashtag) {
       return hashtag === hashtagsArr[i];
     });
-
+    textHashtag.addEventListener('invalid', function () {
     if (hashtagsArr[0] !== '#') {
       textHashtags.setCustomValidity('хэш-тег начинается с символа # (решётка)');
     } else if (hashtagsArr[i] === '#') {
@@ -301,9 +291,9 @@ var hashtagsValidity = function (value) {
     } else {
       textHashtags.setCustomValidity('');
     }
-  }
-};
+  });
 
 textHashtags.addEventListener('input', function (evt) {
-  textHashtags.setCustomValidity(hashtagsValidity(evt.value));
+  var value = evt.target.value;
+  textHashtags.setCustomValidity(hashtagsValidity(value));
 });
