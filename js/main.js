@@ -162,7 +162,7 @@ openBigPicture(photos[8]);
 
 bigPicture.querySelector('.social__comment-count').classList.add('hidden');
 bigPicture.querySelector('.comments-loader').classList.add('hidden');
-document.body.classList.add('modal-open');
+// document.body.classList.add('modal-open');
 
 
 var openUploadFile = document.querySelector('.img-upload__input'); // находит в разметке по id скрытый инпут
