@@ -258,7 +258,6 @@ scaleCtrlBigger.addEventListener('click', setControlValueDown);
 
 // валидация
 
-// var textHashtags = document.querySelector('.text__hashtags');
 var hashtagInput = document.querySelector('input[name=hashtags]');
 var hashtagInputError = hashtagInput.value;
 var MAX_LENGTH_HASHTAG = 20;
@@ -286,8 +285,6 @@ var hashtagsValidity = function (value) {
         hashtagInputError.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку;');
       } else if (SYMBOL.test(hashtagsArr[i])) {
         hashtagInputError.setCustomValidity('строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т.п.), символы пунктуации (тире, дефис, запятая и т.п.), эмодзи и т.д.');
-      // } else if (hashtagsArr.length - 1 >= HASHTAG_ARR_MAX_LENGTH) {
-      //   textHashtags.setCustomValidity('нельзя указать больше пяти хэш-тегов');
       } else if (hashtagsArr[i] === repeatHashtag) {
         hashtagInputError.setCustomValidity('один и тот же хэш-тег не может быть использован дважды');
       } else {
@@ -299,5 +296,5 @@ var hashtagsValidity = function (value) {
 
 hashtagInput.addEventListener('input', function (evt) {
   var value = evt.target.value;
-  hashtagInputError.setCustomValidity.setCustomValidity(hashtagsValidity(value));
+  hashtagInputError.setCustomValidity(hashtagsValidity(value));
 });
