@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 'use strict';
 
 var USER_NAMES = ['Петька', 'Максим', 'Аня', 'Лёля', 'Артем', 'Саша', 'Костя', 'Ира']; // создает массив пользователей
@@ -127,7 +128,7 @@ var renderPhotos = function (photoElem) {
 renderPhotos(photos);
 
 var bigPicture = document.querySelector('.big-picture'); // находит по классу разметке элемент с большой картинкой
-bigPicture.classList.remove('hidden'); // удаляет класс hidden
+// bigPicture.classList.remove('hidden'); // удаляет класс hidden // временно скроем большую фотку
 var commentsList = document.querySelector('.social__comments'); // находит по классу в разметке список с комментариями
 var commentItem = commentsList.querySelector('.social__comment'); // находит по классу элемент списка
 
@@ -161,4 +162,138 @@ openBigPicture(photos[8]);
 
 bigPicture.querySelector('.social__comment-count').classList.add('hidden');
 bigPicture.querySelector('.comments-loader').classList.add('hidden');
-document.body.classList.add('modal-open');
+// document.body.classList.add('modal-open');
+
+
+var openUploadFile = document.querySelector('.img-upload__input'); // находит в разметке по id скрытый инпут
+var uploadCancel = document.querySelector('#upload-cancel'); // находит в разметке по id кнопку отмены
+var uploadForm = document.querySelector('.img-upload__overlay'); // находит в разметке по id форму
+var ESC_KEY = 'Escape';
+// var ENTER_KEY = 'Enter';
+
+var formOpen = function () { // описывает открытие формы
+  uploadForm.classList.remove('hidden'); // у формы в расметке удаляет класс hidden
+  document.body.classList.add('modal-open'); // добавляет body класс modal-open
+};
+
+var formClose = function () { // функция закрытия формы
+  uploadForm.classList.add('hidden'); // добавляет класс hidden
+  document.body.classList.remove('modal-open'); // удаляет класс открытия модального окна
+};
+
+var onPopupEscPress = function (evt) { // управление модалкой при помощи клавиатуры
+  if (evt.key === ESC_KEY) { // если событие с клавиатуры строго равно значению эскейп на клавиатуре, то вызовется функция закрытия попапа
+
+    formClose();
+  }
+};
+
+openUploadFile.addEventListener('change', function () { // При наступлении события change на этом поле, можно сразу показывать форму редактирования изображения.
+  formOpen(); // открытия формы(удаляет класс скрытия)
+  document.addEventListener('keydown', onPopupEscPress); // и слушается событие нажатия кнопки клавиатуры и выполяется функция закрытия формы
+});
+
+uploadCancel.addEventListener('click', function () { // если происходит событие клик по кнопке отмены, то срабатывает функция
+  formClose(); // происходит вызов функции закрытия формы, навешиваем класс hidden
+  document.removeEventListener('keydown', onPopupEscPress); // и слушается событие нажатия кнопки клавиатуры и выполяется функция закрытия формы
+});
+
+// наложение эффекта
+var effectList = document.querySelector('.effects__list');
+var imgUploadPreview = document.querySelector('.img-upload__preview');
+
+var effectChangeHandler = function (evt) {
+  if (evt.target && evt.target.matches('input[type="radio"]')) {
+    imgUploadPreview.classList = ''; // сбрасывает значение поля
+    imgUploadPreview.classList.add('effects__preview--' + evt.target.value);
+  }
+};
+effectList.addEventListener('change', effectChangeHandler);
+
+// редактирование размера изображения
+var scaleCtrlSmaller = document.querySelector('.scale__control--smaller');
+var scaleCtrlBigger = document.querySelector('.scale__control--bigger');
+var scaleCtrlValue = document.querySelector('.scale__control--value');
+
+scaleCtrlValue.value = '100%'; // значение инпута со значением размера картинки(в разметке = 55%)
+
+var setControlValueDec = function (evt) { // функция, которая обрабатывает события
+  evt.preventDefault(); // не выолдняе действие по умолчанию
+  switch (scaleCtrlValue.value) { // заменяет множество циклов if-else, последовательно сравнивыает выражение с несколькими вариантами
+    case '50%': // если значение инпута scaleCtrlValue.value строго равно 50%, то выполняется директива case
+      scaleCtrlValue.value = '25%'; // значение инпута присваивается значение 25%
+      imgUploadPreview.style.transform = 'scale(' + (0.25) + ')'; // в style.css запишется значение scale: 0.25
+      break;
+    case '75%':
+      scaleCtrlValue.value = '50%';
+      imgUploadPreview.style.transform = 'scale(' + (0.5) + ')';
+      break;
+    case '100%':
+      scaleCtrlValue.value = '75%';
+      imgUploadPreview.style.transform = 'scale(' + (0.75) + ')';
+      break;
+  }
+};
+
+scaleCtrlSmaller.addEventListener('click', setControlValueDec); // кнопке "-" по клику будет присваиваться значение полученное в результате работы функции
+
+var setControlValueDown = function (evt) { // функция, которая обрабатывает события
+  evt.preventDefault(); // не выолдняе действие по умолчанию
+  switch (scaleCtrlValue.value) { // заменяет множество циклов if-else, последовательно сравнивыает выражение с несколькими вариантами
+    case '25%': // если значение инпута scaleCtrlValue.value строго равно 50%, то выполняется директива case
+      scaleCtrlValue.value = '50%'; // значение инпута присваивается значение 25%
+      imgUploadPreview.style.transform = 'scale(' + (0.5) + ')'; // в style.css запишется значение scale: 0.25
+      break;
+    case '50%':
+      scaleCtrlValue.value = '75%';
+      imgUploadPreview.style.transform = 'scale(' + (0.75) + ')';
+      break;
+    case '75%':
+      scaleCtrlValue.value = '100%';
+      imgUploadPreview.style.transform = 'scale(' + (1) + ')';
+      break;
+  }
+};
+scaleCtrlBigger.addEventListener('click', setControlValueDown);
+
+// валидация
+
+
+var MAX_LENGTH_HASHTAG = 20;
+var HASHTAG_ARR_MAX_LENGTH = 5;
+// var SYMBOL = /[a-z0-9а-яA-ZА-Я-#]/;
+var imgUploadForm = document.querySelector('.img-upload__form');
+var hashtagFieldset = imgUploadForm.querySelector('.img-upload__text');
+var hashtagInput = hashtagFieldset.querySelector('input[name=hashtags]');
+
+var hashtagsValidity = function () {
+  var hashtagInputError = hashtagInput.value;
+  var lowerCaseHashtag = hashtagInputError.toLowerCase();
+  var hashtagArr = lowerCaseHashtag.split(' ');
+
+  if (hashtagInput.value.length === 0) {
+    hashtagInput.setCustomValidity('');
+  } else if (hashtagArr.length > HASHTAG_ARR_MAX_LENGTH) {
+    hashtagInput.setCustomValidity('нельзя указать больше пяти хэш-тегов');
+  } else {
+    for (var i = 0; i < hashtagArr.length; i++) {
+      if (hashtagArr[i][0] !== '#' || hashtagArr[0][0] !== '#') {
+        hashtagInput.setCustomValidity('хеш-тег начинается с #');
+      } else if (hashtagArr[i] === '#') {
+        hashtagInput.setCustomValidity('хеш-тег не может состоять только из одной решётки');
+      } else if (hashtagArr.indexOf(hashtagArr[i]) !== i) {
+        hashtagInput.setCustomValidity('один и тот же хэш-тег не может быть использован дважды');
+      } else if (hashtagArr[i].length > MAX_LENGTH_HASHTAG) {
+        hashtagInput.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
+      } else if (hashtagArr[i].split('#').length > 2) {
+        hashtagInput.setCustomValidity('хэш-теги должны быть разделены пробелами');
+      // } else if (SYMBOL.test(hashtagArr[i])) {
+      //   hashtagInput.setCustomValidity('строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (@, $ и т.п.), символы пунктуации (тире, дефис, запятая и т.п.), эмодзи и т.д.');
+      } else {
+        hashtagInput.setCustomValidity('');
+      }
+    }
+  }
+};
+
+hashtagInput.addEventListener('input', hashtagsValidity);
